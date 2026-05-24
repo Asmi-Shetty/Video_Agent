@@ -1,0 +1,49 @@
+
+# ─────────────────────────────────────────
+# AI Meeting Assistant — requirements.txt
+# ─────────────────────────────────────────
+ 
+# ── Audio / Video ingestion ──────────────
+yt-dlp>=2024.4.9                   # Download audio from YouTube URLs
+pydub>=0.25.1                      # Audio file manipulation & format conversion
+ffmpeg-python>=0.2.0               # FFmpeg bindings (ffmpeg binary must be installed)
+ 
+# ── Speech-to-Text (local Whisper) ───────
+openai-whisper>=20231117           # OpenAI Whisper for local transcription
+torch>=2.2.0                       # PyTorch backend for Whisper
+torchaudio>=2.2.0                  # Audio tensor utilities
+ 
+# ── Translation (Hindi → English) ────────
+deep-translator>=1.11.4            # Lightweight translation via Google Translate API
+langdetect>=1.0.9                  # Auto-detect language of transcript
+ 
+# ── LLM / LangChain LCEL + Mistral ───────
+langchain>=0.2.0                   # LangChain core + LCEL
+langchain-core>=0.2.0              # Runnables, prompts, output parsers
+langchain-community>=0.2.0         # Community integrations (Chroma, HF, etc.)
+langchain-mistralai>=0.1.0         # LangChain wrapper for Mistral API
+mistralai>=1.0.0                   # Official Mistral Python SDK
+ 
+# ── RAG — Embeddings & Vector Store ──────
+chromadb>=0.5.0                    # ChromaDB local vector database
+sentence-transformers>=3.0.0       # HuggingFace sentence embeddings
+huggingface-hub>=0.23.0            # Model hub access for embeddings
+ 
+# ── Document loaders & text splitting ────
+tiktoken>=0.7.0                    # Token counting for chunking strategies
+langchain-text-splitters>=0.2.0    # RecursiveCharacterTextSplitter etc.
+ 
+# ── Streamlit UI ──────────────────────────
+streamlit>=1.35.0                  # Main UI framework
+streamlit-chat>=0.1.1              # Chat message components for RAG chat UI
+watchdog>=4.0.0                    # File system watcher (Streamlit hot-reload)
+ 
+# ── Export — PDF & TXT ────────────────────
+reportlab>=4.2.0                   # Generate PDF files from Python
+fpdf2>=2.7.9                       # Alternative lightweight PDF generation
+ 
+# ── General utilities ─────────────────────
+python-dotenv>=1.0.1               # Load API keys from .env file
+tenacity>=8.3.0                    # Retry logic for API calls
+tqdm>=4.66.0                       # Progress bars
+numpy>=1.26.0                      # Numerical operations
