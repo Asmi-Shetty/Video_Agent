@@ -24,18 +24,18 @@ def summarize_chunk(chunk :str ) ->str:
         [
             ("system", "Summarize this portion of a meeting transcript concisely."),
             ("human", "{text}"),
-
         ]
     )
 
     map_chain = map_prompt | llm | StrOutputParser()
+    return map_chain.invoke({"text" : chunk})
 
+def summarize(transcript: str) -> str:
     chunks = split_transcript(transcript)
-
-    chunk_summaries = [map_chain.invoke({"text" : chunk}) for chunk in chunks]
-
+    chunk_summaries = [summarize_chunk(chunk) for chunk in chunks]
     combined = "\n\n".join(chunk_summaries)
 
+    llm = get_llm()
     combined_prompt = ChatPromptTemplate.from_messages(
         [
             ("system", "Combine these chunk-wise summaries into a single, coherent summary of the entire meeting transcript."),
@@ -44,24 +44,23 @@ def summarize_chunk(chunk :str ) ->str:
     )
 
     combined_chain = (
-        RunnablePassthrough() | RunnableLambda(lambda x:{"text":x}) |combined_prompt | llm
+        RunnablePassthrough() | RunnableLambda(lambda x:{"text":x}) | combined_prompt | llm | StrOutputParser()
     )
     return combined_chain.invoke(combined)
 
-    def generate_title(transcript : str) ->str:
-        llm = get_llm()
+def generate_title(transcript : str) ->str:
+    llm = get_llm()
 
-        title_chain = (
-            RunnablePassthrough() | RunnableLambda(lambda x:{"text":x}) | 
-                ChatPromptTemplate.from_messages([
-                    (
-                        "system",
-                        "Based on meeting transcript, generate a short professional meeting title"
-                        "(max 8 words). Only return the title , nothing else",
-                    ),
-                    ("human", "{text}"),
+    title_chain = (
+        RunnablePassthrough() | RunnableLambda(lambda x:{"text":x}) | 
+            ChatPromptTemplate.from_messages([
+                (
+                    "system",
+                    "Based on meeting transcript, generate a short professional meeting title"
+                    "(max 8 words). Only return the title , nothing else",
+                ),
+                ("human", "{text}"),
+            ]) | llm | StrOutputParser()
+        )
 
-                ]) | llm | StrOutputParser()
-            )
-
-        return title_chain.invoke(transcript[:2000])
+    return title_chain.invoke(transcript[:2000])

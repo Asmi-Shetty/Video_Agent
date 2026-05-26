@@ -26,6 +26,7 @@ mistralai>=1.0.0                   # Official Mistral Python SDK
  
 # ── RAG — Embeddings & Vector Store ──────
 chromadb>=0.5.0                    # ChromaDB local vector database
+langchain-chroma>=1.1.0            # LangChain Chroma integration
 sentence-transformers>=3.0.0       # HuggingFace sentence embeddings
 huggingface-hub>=0.23.0            # Model hub access for embeddings
  
