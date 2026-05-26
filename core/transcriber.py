@@ -5,6 +5,8 @@ WHISPER_MODEL = os.getenv("WHISPER_MODEL", "small")
 
 _model = None
 
+SARVAM_API_KEY = os.getenv("SARVAM_API_KEY")
+
 def load_model():
     global _model
 
@@ -20,13 +22,13 @@ def load_model():
 def transcribe_chunk(chunk_path: str, translate : bool = False) -> str:
     model = load_model()
     task = "translate" if translate else "transcribe"
-    result = model.transcribe(chunk_path, task = taskt)
+    result = model.transcribe(chunk_path, task = task)
 
     return result['text']
 
     def transcribe_all(chunks : list , translate : bool = False) -> str:
         full_transcript = ""
-        
+
         for i, chunk in enumerate(chunks):
             print(f"Transcribing Chunk {i + 1}")
             text = transcribe_chunk(chunk, translate = translate)
