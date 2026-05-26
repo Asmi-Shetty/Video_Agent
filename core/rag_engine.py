@@ -57,7 +57,7 @@ Context from meeting transcript:
 
 def load_rag_chain():
     vector_store = load_vector_store()
-    retriver = get_retriever()
+    retriever = get_retriever()
 
     llm = get_llm()
     prompt = ChatPromptTemplate.from_messages([
